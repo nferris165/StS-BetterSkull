@@ -2,20 +2,25 @@
   "betterSkull:BetterSkull": {
     "NAME": "Better Knowing Skull",
     "DESCRIPTIONS": [
-      "\" #bTwelve cards! Match them to keep them! Limited tries; no do-overs. NL Are you ready? Let's start!\"",
-      "You complete the gremlin's game and look up. NL He disappeared?",
-      "A gremlin is madly shuffling cards on a table. This monster seems to be a harmless one. You approach him out of curiosity.",
-      "A gremlin is madly shuffling cards on a table. This monster seems to be a harmless one. You approach him out of curiosity. NL NL You notice he has a #ydevilish #ysmile upon his face...",
-      "\" #bTwelve cards! Match them to keep them! Limited tries; no do-overs. NL And since you're the #b100th customer, I'll let you play for free. NL NL Are you ready? Let's start!\""
+      "You find yourself in an old, decorated chamber. In the center of the room, a large skull sits atop an ornate pedestal. As you approach, the skull #g@bursts@ #g@into@ #g@flames@ and turns to face you.",
+      "\"WHAT IS IT YOU SEEK? WHAT IS IT YOU OFFER?\" NL In sync with its final words, the door behind you @slams@ @shut.@",
+      " NL NL \"ANYTHING ELSE?\"",
+      " ",
+      "\"DRINK UP!\" NL You obtain a potion.",
+      "\"PERHAPS THIS WILL HELP?\" NL You obtain a card.",
+      "\"YOU MORTALS NEVER CHANGE. IT IS DONE.\" NL #yGold rains down on you!",
+      "\"BEHIND YOU, MORTAL.\" NL You peek behind the skull. Surely enough, there is a door."
     ],
     "OPTIONS": [
       "[Continue]",
-      "[Leave]",
-      "[Play] #yBet #y",
-      "Remaining Attempts: #y",
-      " #ygold. #bFive tries.",
-      " #ygold. #bThree tries. #gRewards #gare #gupgraded.",
-      " #ygold. #bOne try. #gTriple #grewards. #gRewards #gare #gupgraded."
+      " #rHP.",
+      "[Information?] #gReveal #gthe #gBoss. #rLose #r",
+      "[Success?] #gGet #ga #gColorless #gCard. #rLose #r",
+      "[A Pick Me Up?] #gGet #ga #gPotion. #rLose #r",
+      "[Riches?] #gGain #g",
+      " #gGold. #rLose #r",
+      "[How do I leave?] #rLose #r",
+      "[Leave]"
     ]
   }
 }
