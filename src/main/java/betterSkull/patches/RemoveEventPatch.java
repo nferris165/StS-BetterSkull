@@ -11,6 +11,6 @@ import com.megacrit.cardcrawl.events.city.KnowingSkull;
 public class RemoveEventPatch {
 
     public static void Prefix(AbstractDungeon dungeon_instance) {
-        AbstractDungeon.shrineList.remove(KnowingSkull.ID);
+        AbstractDungeon.specialOneTimeEventList.remove(KnowingSkull.ID);
     }
 }

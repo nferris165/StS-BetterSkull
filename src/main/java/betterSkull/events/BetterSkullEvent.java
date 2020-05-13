@@ -27,13 +27,14 @@ public class BetterSkullEvent extends AbstractImageEvent {
     private static final String[] OPTIONS = eventStrings.OPTIONS;
     private static final String IMG = "images/events/knowingSkull.jpg";
 
-    private static final String INTRO_MSG;
+    private static final String REFUTE_MSG;
     private static final String INTRO_2_MSG;
     private static final String ASK_AGAIN_MSG;
     private static final String POTION_MSG;
     private static final String CARD_MSG;
     private static final String GOLD_MSG;
     private static final String LEAVE_MSG;
+    private int healAmt;
     private int potionCost;
     private int cardCost;
     private int goldCost;
@@ -51,15 +52,16 @@ public class BetterSkullEvent extends AbstractImageEvent {
         super(NAME, DESCRIPTIONS[0], IMG);
 
         if (AbstractDungeon.ascensionLevel >= 15) {
-            //bad effect
+            this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.05F);
         } else {
-            //normal effect
+            this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.1F);
         }
 
         this.screen = CurScreen.INTRO_1;
         this.optionsChosen = "";
         this.options = new ArrayList<>();
         this.imageEventText.setDialogOption(OPTIONS[0]);
+        this.imageEventText.setDialogOption(OPTIONS[9] + healAmt + OPTIONS[10]);
         this.options.add(Reward.CARD);
         this.options.add(Reward.GOLD);
         this.options.add(Reward.POTION);
@@ -86,14 +88,26 @@ public class BetterSkullEvent extends AbstractImageEvent {
     protected void buttonEffect(int buttonPressed) {
         switch(this.screen) {
             case INTRO_1:
-                this.imageEventText.updateBodyText(INTRO_2_MSG);
-                this.imageEventText.clearAllDialogs();
-                this.imageEventText.setDialogOption(OPTIONS[4] + this.potionCost + OPTIONS[1]);
-                this.imageEventText.setDialogOption(OPTIONS[5] + 90 + OPTIONS[6] + this.goldCost + OPTIONS[1]);
-                this.imageEventText.setDialogOption(OPTIONS[3] + this.cardCost + OPTIONS[1]);
-                this.imageEventText.setDialogOption(OPTIONS[7] + this.leaveCost + OPTIONS[1]);
-                this.screen = CurScreen.ASK;
-                break;
+                switch(buttonPressed) {
+                    case 0:
+                        this.imageEventText.updateBodyText(INTRO_2_MSG);
+                        this.imageEventText.clearAllDialogs();
+                        this.imageEventText.setDialogOption(OPTIONS[4] + this.potionCost + OPTIONS[1]);
+                        this.imageEventText.setDialogOption(OPTIONS[5] + 90 + OPTIONS[6] + this.goldCost + OPTIONS[1]);
+                        this.imageEventText.setDialogOption(OPTIONS[3] + this.cardCost + OPTIONS[1]);
+                        this.imageEventText.setDialogOption(OPTIONS[7] + this.leaveCost + OPTIONS[1]);
+                        this.screen = CurScreen.ASK;
+                        return;
+                    case 1:
+                        this.imageEventText.updateBodyText(REFUTE_MSG);
+                        this.imageEventText.clearAllDialogs();
+                        this.imageEventText.setDialogOption(OPTIONS[8]);
+                        AbstractDungeon.player.heal(healAmt);
+                        this.screen = CurScreen.COMPLETE;
+                        return;
+                    default:
+                        return;
+                }
             case ASK:
                 CardCrawlGame.sound.play("DEBUFF_2");
                 switch(buttonPressed) {
@@ -178,13 +192,13 @@ public class BetterSkullEvent extends AbstractImageEvent {
     }
 
     static {
-        INTRO_MSG = DESCRIPTIONS[0];
         INTRO_2_MSG = DESCRIPTIONS[1];
         ASK_AGAIN_MSG = DESCRIPTIONS[2];
         POTION_MSG = DESCRIPTIONS[4];
         CARD_MSG = DESCRIPTIONS[5];
         GOLD_MSG = DESCRIPTIONS[6];
         LEAVE_MSG = DESCRIPTIONS[7];
+        REFUTE_MSG = DESCRIPTIONS[8];
     }
 
     private enum Reward {
