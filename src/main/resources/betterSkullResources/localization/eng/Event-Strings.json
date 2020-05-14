@@ -6,18 +6,18 @@
       "\"WHAT IS IT YOU SEEK? WHAT IS IT YOU OFFER?\" NL In sync with its final words, the door behind you @slams@ @shut.@",
       " NL NL \"ANYTHING ELSE?\"",
       " ",
-      "\"DRINK UP!\" NL You obtain a potion.",
-      "\"PERHAPS THIS WILL HELP?\" NL You obtain a card.",
+      "\"SHAPE UP!\" NL You obtain an upgrade.",
+      "\"PERHAPS THIS WILL HELP?\" NL You obtain a relic.",
       "\"YOU MORTALS NEVER CHANGE. IT IS DONE.\" NL #yGold rains down on you!",
-      "\"BEHIND YOU, MORTAL.\" NL You peek behind the skull. Surely enough, there is a door.",
-      "You notice a container labeled \"Holy Water\" nearby, and quickly fling its contents at the #g@flaming@ #g@skull,@ instantly dousing it. NL NL You feel a refreshing presence circle about you, lifting your spirits. NL NL Content with your good deed, you carry on your way."
+      "\"BEHIND ME, MORTAL.\" NL You peek behind the skull. Surely enough, there is a door.",
+      "You notice a container labeled #b\"Holy #bWater\" nearby, and quickly fling its contents at the #g@flaming@ #g@skull,@ instantly dousing it. NL NL You feel a refreshing presence circle about you, lifting your spirits. NL NL Content with your good deed, you carry on your way."
     ],
     "OPTIONS": [
       "[Continue]",
       " #rHP.",
       "",
       "[Improvement?] #gUpgrade #ga #grandom #gcard. #rLose #r",
-      "[Power?] #gGet #ga #gRelic. #rLose #r",
+      "[Power?] #gGet #ga #gCommon #gRelic. #rLose #r",
       "[Riches?] #gGain #g",
       " #gGold. #rLose #r",
       "[How do I leave?] #rLose #r",

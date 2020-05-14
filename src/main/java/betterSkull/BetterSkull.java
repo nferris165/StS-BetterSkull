@@ -182,7 +182,7 @@ public class BetterSkull implements
         Texture badgeTexture = TextureLoader.getTexture(BADGE_IMAGE);
         ModPanel settingsPanel = new ModPanel();
 
-        ModLabeledToggleButton ascLimitButton = new ModLabeledToggleButton("???",
+        ModLabeledToggleButton ascLimitButton = new ModLabeledToggleButton("Disables Dispel option.",
                 350.0f, 750.0f, Settings.CREAM_COLOR, FontHelper.charDescFont,
                 optionLimit,
                 settingsPanel,
@@ -208,9 +208,9 @@ public class BetterSkull implements
                 .eventType(EventUtils.EventType.SHRINE).bonusCondition(
                         () -> {
                             if(AbstractDungeon.ascensionLevel >= 15){
-                                return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.5;
+                                return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.5F;
                             } else{
-                                return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.5;
+                                return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.5F;
                             }
                         }
                 ).create());

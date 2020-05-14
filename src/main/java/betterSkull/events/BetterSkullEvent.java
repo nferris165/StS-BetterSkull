@@ -2,20 +2,16 @@ package betterSkull.events;
 
 import betterSkull.BetterSkull;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
-import com.megacrit.cardcrawl.helpers.PotionHelper;
 import com.megacrit.cardcrawl.localization.EventStrings;
-import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.vfx.RainingGoldEffect;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
 import static org.apache.commons.lang3.math.NumberUtils.max;
 
@@ -46,9 +42,6 @@ public class BetterSkullEvent extends AbstractImageEvent {
     private String optionsChosen;
     private int damageTaken;
     private int goldEarned;
-    private List<String> potions;
-    private List<String> cards;
-    private List<Reward> options;
 
     public BetterSkullEvent() {
         super(NAME, DESCRIPTIONS[0], IMG);
@@ -56,28 +49,24 @@ public class BetterSkullEvent extends AbstractImageEvent {
         if (AbstractDungeon.ascensionLevel >= 15) {
             this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.05F);
             this.goldReward = 75;
+            this.leaveCost = (int)(AbstractDungeon.player.maxHealth * 0.05F);
         } else {
             this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.1F);
             this.goldReward = 100;
+            this.leaveCost = 1;
         }
 
         this.screen = CurScreen.INTRO_1;
         this.optionsChosen = "";
-        this.options = new ArrayList<>();
         this.imageEventText.setDialogOption(OPTIONS[0]);
-        this.imageEventText.setDialogOption(OPTIONS[9] + healAmt + OPTIONS[10]);
-        this.options.add(Reward.CARD);
-        this.options.add(Reward.GOLD);
-        this.options.add(Reward.POTION);
-        this.options.add(Reward.LEAVE);
-        this.leaveCost = 1;
-        this.upgradeCost = max((int)(AbstractDungeon.player.maxHealth * 0.1F), 6);
+        if(!BetterSkull.optionLimit){
+            this.imageEventText.setDialogOption(OPTIONS[9] + healAmt + OPTIONS[10]);
+        }
+        this.upgradeCost = max((int)(AbstractDungeon.player.maxHealth * 0.15F), 6);
         this.relicCost = max((int)(AbstractDungeon.player.maxHealth * 0.2F), 6);
         this.goldCost = max((int)(AbstractDungeon.player.maxHealth * 0.1F), 6);
         this.damageTaken = 0;
         this.goldEarned = 0;
-        this.cards = new ArrayList<>();
-        this.potions = new ArrayList<>();
     }
 
     @Override
@@ -126,7 +115,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         AbstractDungeon.player.damage(new DamageInfo(null, this.upgradeCost, DamageInfo.DamageType.HP_LOSS));
                         ++this.upgradeCost;
                         this.imageEventText.updateBodyText(UPGRADE_MSG + ASK_AGAIN_MSG);
-                        //TODO
+                        this.upgrade();
                         this.setChoices();
                         //Metrics
                         this.damageTaken += this.upgradeCost;
@@ -136,7 +125,8 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         AbstractDungeon.player.damage(new DamageInfo(null, this.relicCost, DamageInfo.DamageType.HP_LOSS));
                         ++this.relicCost;
                         this.imageEventText.updateBodyText(RELIC_MSG + ASK_AGAIN_MSG);
-                        //TODO
+                        AbstractRelic r = AbstractDungeon.returnRandomScreenlessRelic(AbstractRelic.RelicTier.COMMON);
+                        AbstractDungeon.getCurrRoom().spawnRelicAndObtain((float)Settings.WIDTH / 2.0F, (float)Settings.HEIGHT / 2.0F, r);
                         this.setChoices();
                         //Metrics
                         this.damageTaken += this.relicCost;
@@ -175,6 +165,23 @@ public class BetterSkullEvent extends AbstractImageEvent {
         this.screen = CurScreen.COMPLETE;
     }
 
+    private void upgrade(){
+        CardGroup upgradeable = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
+
+        for(AbstractCard c: AbstractDungeon.player.masterDeck.group){
+            if (c.canUpgrade() && c.type != AbstractCard.CardType.STATUS) {
+                upgradeable.addToTop(c);
+            }
+        }
+
+        if (upgradeable.size() > 0) {
+            upgradeable.shuffle();
+            (upgradeable.group.get(0)).upgrade();
+            AbstractDungeon.player.bottledCardUpgradeCheck(upgradeable.group.get(0));
+            AbstractDungeon.effectList.add(new ShowCardBrieflyEffect(upgradeable.group.get(0).makeStatEquivalentCopy()));
+        }
+    }
+
     static {
         INTRO_2_MSG = DESCRIPTIONS[1];
         ASK_AGAIN_MSG = DESCRIPTIONS[2];
@@ -183,16 +190,6 @@ public class BetterSkullEvent extends AbstractImageEvent {
         GOLD_MSG = DESCRIPTIONS[6];
         LEAVE_MSG = DESCRIPTIONS[7];
         REFUTE_MSG = DESCRIPTIONS[8];
-    }
-
-    private enum Reward {
-        POTION,
-        LEAVE,
-        GOLD,
-        CARD;
-
-        Reward() {
-        }
     }
 
     private enum CurScreen {
