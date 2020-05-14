@@ -15,9 +15,9 @@
     "OPTIONS": [
       "[Continue]",
       " #rHP.",
-      "[Information?] #gReveal #gthe #gBoss. #rLose #r",
-      "[Success?] #gGet #ga #gColorless #gCard. #rLose #r",
-      "[A Pick Me Up?] #gGet #ga #gPotion. #rLose #r",
+      "",
+      "[Improvement?] #gUpgrade #ga #grandom #gcard. #rLose #r",
+      "[Power?] #gGet #ga #gRelic. #rLose #r",
       "[Riches?] #gGain #g",
       " #gGold. #rLose #r",
       "[How do I leave?] #rLose #r",
