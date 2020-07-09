@@ -54,7 +54,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
 
         if (AbstractDungeon.ascensionLevel >= 15) {
             this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.05F);
-            this.goldBase = 75;
+            this.goldBase = 80;
             this.leaveCost = (int)(AbstractDungeon.player.maxHealth * 0.05F);
         } else {
             this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.1F);
@@ -69,9 +69,12 @@ public class BetterSkullEvent extends AbstractImageEvent {
         if(!BetterSkull.optionLimit){
             this.imageEventText.setDialogOption(OPTIONS[9] + healAmt + OPTIONS[10]);
         }
-        this.upgradeCost = max((int)(AbstractDungeon.player.maxHealth * 0.15F), 6);
-        this.relicCost = max((int)(AbstractDungeon.player.maxHealth * 0.2F), 6);
         this.goldCost = max((int)(AbstractDungeon.player.maxHealth * 0.1F), 6);
+        this.goldCost += AbstractDungeon.miscRng.random(-1,1);
+        this.upgradeCost = max((int)(AbstractDungeon.player.maxHealth * 0.15F), 6);
+        this.upgradeCost += AbstractDungeon.miscRng.random(-1,2);
+        this.relicCost = max((int)(AbstractDungeon.player.maxHealth * 0.2F), 6);
+        this.relicCost += AbstractDungeon.miscRng.random(-1,2);
         this.damageTaken = 0;
         this.damageHealed = 0;
         this.goldEarned = 0;
