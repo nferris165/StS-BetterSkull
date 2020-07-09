@@ -8,6 +8,7 @@ import basemod.eventUtil.AddEventParams;
 import basemod.eventUtil.EventUtils;
 import basemod.interfaces.*;
 import betterSkull.events.BetterSkullEvent;
+import betterSkull.patches.customMetrics;
 import betterSkull.util.TextureLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,6 +39,7 @@ public class BetterSkull implements
         EditStringsSubscriber,
         EditKeywordsSubscriber,
         EditCharactersSubscriber,
+        PostDeathSubscriber,
         PostInitializeSubscriber{
 
     public static final Logger logger = LogManager.getLogger(BetterSkull.class.getName());
@@ -217,5 +219,14 @@ public class BetterSkull implements
 
         //audio
         loadAudio();
+    }
+
+    @Override
+    public void receivePostDeath() {
+        customMetrics metrics = new customMetrics();
+
+        Thread t = new Thread(metrics);
+        t.setName("Metrics");
+        t.start();
     }
 }

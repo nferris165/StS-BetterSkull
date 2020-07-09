@@ -13,6 +13,9 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.vfx.RainingGoldEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.apache.commons.lang3.math.NumberUtils.max;
 
 public class BetterSkullEvent extends AbstractImageEvent {
@@ -42,6 +45,8 @@ public class BetterSkullEvent extends AbstractImageEvent {
     private String optionsChosen;
     private int damageTaken;
     private int goldEarned;
+    private List<String> relicsObtained;
+    private List<String> cards;
 
     public BetterSkullEvent() {
         super(NAME, DESCRIPTIONS[0], IMG);
@@ -67,6 +72,8 @@ public class BetterSkullEvent extends AbstractImageEvent {
         this.goldCost = max((int)(AbstractDungeon.player.maxHealth * 0.1F), 6);
         this.damageTaken = 0;
         this.goldEarned = 0;
+        this.relicsObtained = new ArrayList<>();
+        this.cards = new ArrayList<>();
     }
 
     @Override
@@ -92,6 +99,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         this.imageEventText.setDialogOption(OPTIONS[8]);
                         AbstractDungeon.player.heal(healAmt);
                         this.screen = CurScreen.COMPLETE;
+                        this.optionsChosen = this.optionsChosen + "LEAVE ";
                         return;
                     default:
                         return;
@@ -108,7 +116,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         this.setChoices();
                         //Metrics
                         this.damageTaken += this.goldCost;
-                        this.optionsChosen = this.optionsChosen + "GOLD ";
+                        this.optionsChosen = this.optionsChosen + "GO ";
                         this.goldEarned += goldReward;
                         return;
                     case 1:
@@ -118,19 +126,21 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         this.upgrade();
                         this.setChoices();
                         //Metrics
+                        // card in upgrade fct
                         this.damageTaken += this.upgradeCost;
-                        this.optionsChosen = this.optionsChosen + "UPGRADE ";
+                        this.optionsChosen = this.optionsChosen + "UP";
                         return;
                     case 2:
                         AbstractDungeon.player.damage(new DamageInfo(null, this.relicCost, DamageInfo.DamageType.HP_LOSS));
-                        ++this.relicCost;
+                        this.relicCost += 2;
                         this.imageEventText.updateBodyText(RELIC_MSG + ASK_AGAIN_MSG);
                         AbstractRelic r = AbstractDungeon.returnRandomScreenlessRelic(AbstractRelic.RelicTier.COMMON);
                         AbstractDungeon.getCurrRoom().spawnRelicAndObtain((float)Settings.WIDTH / 2.0F, (float)Settings.HEIGHT / 2.0F, r);
                         this.setChoices();
                         //Metrics
                         this.damageTaken += this.relicCost;
-                        this.optionsChosen = this.optionsChosen + "RELIC ";
+                        this.optionsChosen = this.optionsChosen + "RE ";
+                        this.relicsObtained.add(r.relicId);
                         return;
                     default:
                         AbstractDungeon.player.damage(new DamageInfo(null, this.leaveCost, DamageInfo.DamageType.HP_LOSS));
@@ -139,11 +149,10 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         return;
                 }
             case COMPLETE:
-                /*
-                logMetric("Knowing Skull", this.optionsChosen, this.cards, (List)null, (List)null,
-                        (List)null, (List)null, this.potions, (List)null, this.damageTaken, 0,
+                logMetric(ID, this.optionsChosen, null, null, null,
+                        this.cards, this.relicsObtained, null, null, this.damageTaken, 0,
                         0, 0, this.goldEarned, 0);
-                        */
+
                 this.openMap();
         }
 
@@ -176,9 +185,11 @@ public class BetterSkullEvent extends AbstractImageEvent {
 
         if (upgradeable.size() > 0) {
             upgradeable.shuffle();
-            (upgradeable.group.get(0)).upgrade();
-            AbstractDungeon.player.bottledCardUpgradeCheck(upgradeable.group.get(0));
-            AbstractDungeon.effectList.add(new ShowCardBrieflyEffect(upgradeable.group.get(0).makeStatEquivalentCopy()));
+            AbstractCard c = upgradeable.group.get(0);
+            this.cards.add(c.cardID);
+            c.upgrade();
+            AbstractDungeon.player.bottledCardUpgradeCheck(c);
+            AbstractDungeon.effectList.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy()));
         }
     }
 
