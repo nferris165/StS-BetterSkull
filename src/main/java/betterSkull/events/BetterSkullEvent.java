@@ -40,7 +40,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
     private int upgradeCost;
     private int goldCost;
     private int leaveCost;
-    private int goldReward;
+    private int goldReward, goldBase;
     private CurScreen screen;
     private String optionsChosen;
     private int damageTaken;
@@ -54,16 +54,17 @@ public class BetterSkullEvent extends AbstractImageEvent {
 
         if (AbstractDungeon.ascensionLevel >= 15) {
             this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.05F);
-            this.goldReward = 75;
+            this.goldBase = 75;
             this.leaveCost = (int)(AbstractDungeon.player.maxHealth * 0.05F);
         } else {
             this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.1F);
-            this.goldReward = 100;
+            this.goldBase = 100;
             this.leaveCost = 1;
         }
 
         this.screen = CurScreen.INTRO_1;
         this.optionsChosen = "";
+        setGold(this.goldBase);
         this.imageEventText.setDialogOption(OPTIONS[0]);
         if(!BetterSkull.optionLimit){
             this.imageEventText.setDialogOption(OPTIONS[9] + healAmt + OPTIONS[10]);
@@ -88,6 +89,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
 
     @Override
     protected void buttonEffect(int buttonPressed) {
+        setGold(this.goldBase);
         switch(this.screen) {
             case INTRO_1:
                 switch(buttonPressed) {
@@ -175,6 +177,11 @@ public class BetterSkullEvent extends AbstractImageEvent {
         this.imageEventText.clearAllDialogs();
         this.imageEventText.setDialogOption(OPTIONS[8]);
         this.screen = CurScreen.COMPLETE;
+    }
+
+    private void setGold(int base){
+        int rand = AbstractDungeon.miscRng.random(-3,4);
+        this.goldReward = this.goldBase + rand;
     }
 
     private void upgrade(){
