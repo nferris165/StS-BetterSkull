@@ -44,6 +44,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
     private CurScreen screen;
     private String optionsChosen;
     private int damageTaken;
+    private int damageHealed;
     private int goldEarned;
     private List<String> relicsObtained;
     private List<String> cards;
@@ -71,6 +72,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
         this.relicCost = max((int)(AbstractDungeon.player.maxHealth * 0.2F), 6);
         this.goldCost = max((int)(AbstractDungeon.player.maxHealth * 0.1F), 6);
         this.damageTaken = 0;
+        this.damageHealed = 0;
         this.goldEarned = 0;
         this.relicsObtained = new ArrayList<>();
         this.cards = new ArrayList<>();
@@ -100,6 +102,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         AbstractDungeon.player.heal(healAmt);
                         this.screen = CurScreen.COMPLETE;
                         this.optionsChosen = this.optionsChosen + "LEAVE ";
+                        this.damageHealed = healAmt;
                         return;
                     default:
                         return;
@@ -150,7 +153,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                 }
             case COMPLETE:
                 logMetric(ID, this.optionsChosen, null, null, null,
-                        this.cards, this.relicsObtained, null, null, this.damageTaken, 0,
+                        this.cards, this.relicsObtained, null, null, this.damageTaken, this.damageHealed,
                         0, 0, this.goldEarned, 0);
 
                 this.openMap();
