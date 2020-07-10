@@ -53,11 +53,11 @@ public class BetterSkullEvent extends AbstractImageEvent {
         super(NAME, DESCRIPTIONS[0], IMG);
 
         if (AbstractDungeon.ascensionLevel >= 15) {
-            this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.05F);
+            this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.04F);
             this.goldBase = 80;
             this.leaveCost = (int)(AbstractDungeon.player.maxHealth * 0.05F);
         } else {
-            this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.1F);
+            this.healAmt = (int)(AbstractDungeon.player.maxHealth * 0.08F);
             this.goldBase = 100;
             this.leaveCost = 1;
         }
