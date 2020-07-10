@@ -16,7 +16,7 @@ There is an option in the mod's configuration panel to disable the inital bonus 
 
 ## Design Goals
 
-The normal event relies on a classic [url=https://boardgamegeek.com/boardgamemechanic/2661/push-your-luck]Push Your Luck[/url] mechanic. The player can spend more health now to get rewards, but risks not keeping enough health to survive later encounters. In deconstructing this event, the main issue noted was not the core idea, but rather the particular implementation resulting from a couple distinct factors.
+The normal event relies on a classic [Push Your Luck](https://boardgamegeek.com/boardgamemechanic/2661/push-your-luck) mechanic. The player can spend more health now to get rewards, but risks not keeping enough health to survive later encounters. In deconstructing this event, the main issue noted was not the core idea, but rather the particular implementation resulting from a couple distinct factors.
 
 The options offered are not the most appealing, and as a result the typical interaction with this event is to leave immediately, and thus have a net result of losing about 6 health. Occasionally, a player might opt to take the gold bonus once or twice before going if they are feeling healthy, or risky. Often times adding a random Colorless card is a negative even without the health cost, and often potions are either full, or not worth the cost of obtaining a new one, especially at random.
 
