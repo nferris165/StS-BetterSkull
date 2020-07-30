@@ -6,6 +6,7 @@ import betterSkull.events.BetterSkullEvent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.evacipated.cardcrawl.modthespire.Loader;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -13,6 +14,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.VictoryRoom;
 import com.megacrit.cardcrawl.screens.DeathScreen;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -133,6 +135,30 @@ public class customMetrics implements Runnable {
 
         //addData("event_choices", CardCrawlGame.metricData.event_choices);
         addData("heal_limit", BetterSkull.optionLimit);
+        addData("mods", getModList());
+    }
+
+
+    private String getModList(){
+        StringBuilder retVal = new StringBuilder();
+        String mod;
+        for(int i = 0; i < Loader.MODINFOS.length; ++i) {
+            if(i != 0){
+                retVal.append("-|-");
+            }
+            if(Loader.MODINFOS[i].Name != null){
+                mod = StringUtils.substring(Loader.MODINFOS[i].Name, 0, 30);
+            }
+            else{
+                mod = " ";
+            }
+            retVal.append(mod);
+            if(retVal.length() >= 1950){
+                retVal.append("---MAX SIZE REACHED!!!");
+                break;
+            }
+        }
+        return retVal.toString();
     }
 
     private HashMap getDeck(){

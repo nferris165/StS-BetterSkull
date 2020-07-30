@@ -136,7 +136,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         //Metrics
                         // card in upgrade fct
                         this.damageTaken += this.upgradeCost;
-                        this.optionsChosen = this.optionsChosen + "UP";
+                        this.optionsChosen = this.optionsChosen + "UP ";
                         return;
                     case 2:
                         AbstractDungeon.player.damage(new DamageInfo(null, this.relicCost, DamageInfo.DamageType.HP_LOSS));
