@@ -129,7 +129,7 @@ public class BetterSkullEvent extends AbstractImageEvent {
                         return;
                     case 1:
                         AbstractDungeon.player.damage(new DamageInfo(null, this.upgradeCost, DamageInfo.DamageType.HP_LOSS));
-                        ++this.upgradeCost;
+                        this.upgradeCost += 2;
                         this.imageEventText.updateBodyText(UPGRADE_MSG + ASK_AGAIN_MSG);
                         this.upgrade();
                         this.setChoices();

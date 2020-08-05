@@ -6,14 +6,14 @@
 
     <groupId>betterSkull</groupId>
     <artifactId>betterSkull</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>betterSkull</name>
     <description>Improves the Knowing Skull Event!</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <SlayTheSpire.version>01-27-2020</SlayTheSpire.version>
+        <SlayTheSpire.version>07-30-2020</SlayTheSpire.version>
         <ModTheSpire.version>3.15.0</ModTheSpire.version>
         <BaseMod.version>5.17.0</BaseMod.version>
         <StSLib.version>1.17.2</StSLib.version>

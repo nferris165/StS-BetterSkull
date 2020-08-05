@@ -207,10 +207,10 @@ public class BetterSkull implements
 
         //events
         BaseMod.addEvent(new AddEventParams.Builder(BetterSkullEvent.ID, BetterSkullEvent.class)
-                .eventType(EventUtils.EventType.ONE_TIME).bonusCondition(
+                .eventType(EventUtils.EventType.SHRINE).bonusCondition(
                         () -> {
                             if(AbstractDungeon.ascensionLevel >= 15){
-                                return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.5F;
+                                return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.45F;
                             } else{
                                 return AbstractDungeon.player.currentHealth >= AbstractDungeon.player.maxHealth * 0.5F;
                             }
