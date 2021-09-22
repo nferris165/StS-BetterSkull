@@ -1,3 +1,7 @@
 {
-
+  "betterSkull:ConfigMenuText": {
+    "TEXT": [
+      "Disables Dispel option."
+    ]
+  }
 }
